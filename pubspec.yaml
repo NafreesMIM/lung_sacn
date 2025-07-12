@@ -1,0 +1,49 @@
+name: lung_scan_new
+description: "A lung cancer risk assessment application."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase Dependencies
+  firebase_core: ^3.15.1
+  firebase_auth: ^5.6.2
+  cloud_firestore: ^5.6.11
+
+  # UI and Utilities
+  cupertino_icons: ^1.0.8
+  flutter_picker: ^2.1.0
+  http: ^1.4.0
+  intl: ^0.20.2
+
+  # Machine Learning
+  tflite_flutter: ^0.11.0
+
+  # File/Path Handling
+  path_provider: ^2.1.1
+
+  # Location Services (for nearby facilities feature)
+  geolocator: ^14.0.2
+  google_maps_flutter: ^2.2.3
+
+  url_launcher: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  firebase_core_platform_interface: ^6.0.0 # <--- Ensure this is ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/model/logistic_regression_model.tflite
+    - assets/model/preprocessing_info.json

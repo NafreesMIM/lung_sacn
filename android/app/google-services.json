@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1092992771230",
+    "project_id": "lungscannew",
+    "storage_bucket": "lungscannew.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092992771230:android:dedffb9361d0bbb658478f",
+        "android_client_info": {
+          "package_name": "com.example.lung_scan_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092992771230-uom7m6eje8p3elunnq3dhdmir9ns8c3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKdBG8vCrNRYLyUlcFUNxl3hEJ6s9s-qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092992771230-uom7m6eje8p3elunnq3dhdmir9ns8c3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
