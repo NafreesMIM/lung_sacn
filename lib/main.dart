@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:lung_scan_new/screens/settings_screen.dart';
 import 'dart:convert'; // For json.decode()
 // import 'dart:io'; // Not used, can be removed if not needed elsewhere
 
@@ -60,24 +62,56 @@ class AuthWrapper extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key}); // Added const constructor
+
   Future<void> _signOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
+    try {
+      await FirebaseAuth.instance.signOut();
+      // Optionally, navigate to the login/welcome screen after signing out
+      // Navigator.of(context).pushAndRemoveUntil(
+      //   MaterialPageRoute(builder: (context) => LoginScreen()), // Replace with your login screen
+      //   (Route<dynamic> route) => false,
+      // );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Successfully signed out.')),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error signing out: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error signing out: $e')),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('LungScan+'),
+        title: const Text('LungScan+'), // Added const
         actions: [
+          // Settings Icon Button - NEW
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.settings), // Added const
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()), // Added const
+              );
+            },
+          ),
+          // Logout Icon Button
+          IconButton(
+            icon: const Icon(Icons.logout), // Added const
             onPressed: () => _signOut(context),
           ),
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration( // Added const
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -101,12 +135,12 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.health_and_safety,
+                        child: const Icon(Icons.health_and_safety, // Added const
                             size: 80, color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 30),
-                    Text(
+                    const SizedBox(height: 30), // Added const
+                    const Text( // Added const
                       'LungScan+',
                       style: TextStyle(
                         fontSize: 36,
@@ -115,8 +149,8 @@ class HomeScreen extends StatelessWidget {
                         letterSpacing: 1.2,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10), // Added const
+                    const Text( // Added const
                       'Lung Cancer Risk Assessment',
                       style: TextStyle(
                         fontSize: 18,
@@ -130,8 +164,8 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                padding: EdgeInsets.all(30),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(30), // Added const
+                decoration: const BoxDecoration( // Added const
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
@@ -152,23 +186,23 @@ class HomeScreen extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20), // Added const
                       ElevatedButton(
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AssessmentScreen()),
+                              builder: (context) => const AssessmentScreen()), // Added const
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.teal[700],
                           padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 18),
+                          const EdgeInsets.symmetric(horizontal: 50, vertical: 18), // Added const
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                           elevation: 5,
                         ),
-                        child: Row(
+                        child: const Row( // Added const
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.medical_services, color: Colors.white),
@@ -180,26 +214,27 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 20), // Added const for spacing between button and icons
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.history, color: Colors.teal),
+                            icon: const Icon(Icons.history, color: Colors.teal), // Added const
                             onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HistoryScreen()),
+                                  builder: (context) => const HistoryScreen()), // Added const
                             ),
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20), // Added const
                           IconButton(
                             icon:
-                            Icon(Icons.info_outline, color: Colors.teal),
+                            const Icon(Icons.info_outline, color: Colors.teal), // Added const
                             onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AwarenessScreen()),
+                                  builder: (context) => const AwarenessScreen()), // Added const
                             ),
                           ),
                         ],
@@ -651,6 +686,9 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Color riskColor = riskCategory == 'High' ? Colors.red : riskCategory == 'Medium' ? Colors.orange : Colors.green;
 
+    // At the top of your file, make sure to import the share_plus package:
+// ;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Assessment Result'),
@@ -658,11 +696,9 @@ class ResultScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              // Implement share functionality here (e.g., using share_plus package)
-              // Example: Share.share('My lung cancer risk is $riskCategory with a score of $riskScore!');
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Share functionality not implemented yet.')),
-              );
+              // Implement share functionality here using share_plus package
+              final String shareText = 'My lung cancer risk level is "$riskCategory" with an assessment score of $riskScore. You can also assess your risk with this app!';
+              Share.share(shareText);
             },
           ),
         ],
@@ -2118,13 +2154,22 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
               _buildPreventionTip('Know your family history', Icons.people),
             ],
           ),
-          const SizedBox(height: 25), // Adjusted spacing
+          const SizedBox(height: 25),
           Center(
             child: ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Functionality to find centers not implemented here.')),
-                );
+              onPressed: () async {
+                // Construct a URL to open Google Maps searching for nearby hospitals/health centers
+                final Uri url = Uri.parse('http://googleusercontent.com/maps.google.com/maps/search/hospitals+near+me');
+
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                } else {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Could not launch map application.')),
+                    );
+                  }
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal[700],
