@@ -261,7 +261,7 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 
 2. **Clone Your Fork**
    ```bash
-   git clone https://github.com/yourusername/lung_scan_new.git
+   git clone https://github.com/NafreesMIM/lung_scan.git
    cd lung_scan_new
    ```
 
