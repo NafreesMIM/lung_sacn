@@ -67,7 +67,7 @@
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/lung_scan_new.git
+git clone https://github.com/NafreesMIM/lung_scan_new.git
 cd lung_scan_new
 ```
 
